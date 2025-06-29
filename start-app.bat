@@ -1,0 +1,6 @@
+@echo off
+echo Starting server...
+start cmd /k "node server.js"
+timeout 2 > nul
+echo Opening browser...
+start http://localhost:3000

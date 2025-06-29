@@ -1,0 +1,107 @@
+[
+  {
+    "name": "pastel Destaturated",
+    "colors": [
+      {
+        "h": 266,
+        "s": 70,
+        "l": 57,
+        "locked": false
+      },
+      {
+        "h": 30,
+        "s": 56,
+        "l": 64,
+        "locked": false
+      },
+      {
+        "h": 96,
+        "s": 37,
+        "l": 67,
+        "locked": false
+      },
+      {
+        "h": 328,
+        "s": 66,
+        "l": 64,
+        "locked": false
+      },
+      {
+        "h": 154,
+        "s": 57,
+        "l": 69,
+        "locked": false
+      },
+      {
+        "h": 274,
+        "s": 51,
+        "l": 52,
+        "locked": false
+      }
+    ]
+  },
+  {
+    "name": "Fav3",
+    "colors": [
+      {
+        "h": 170,
+        "s": 35,
+        "l": 43,
+        "locked": false
+      },
+      {
+        "h": 260,
+        "s": 50,
+        "l": 32,
+        "locked": true
+      },
+      {
+        "h": 350,
+        "s": 48,
+        "l": 39,
+        "locked": true
+      },
+      {
+        "h": 80,
+        "s": 38,
+        "l": 51,
+        "locked": false
+      }
+    ]
+  },
+  {
+    "name": "ss",
+    "colors": [
+      {
+        "h": 260,
+        "s": 50,
+        "l": 32,
+        "locked": true
+      },
+      {
+        "h": 302,
+        "s": 61,
+        "l": 70,
+        "locked": false
+      },
+      {
+        "h": 74,
+        "s": 61,
+        "l": 36,
+        "locked": true
+      },
+      {
+        "h": 216,
+        "s": 30,
+        "l": 68,
+        "locked": false
+      },
+      {
+        "h": 128,
+        "s": 43,
+        "l": 38,
+        "locked": true
+      }
+    ]
+  }
+]
