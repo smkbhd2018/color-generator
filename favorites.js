@@ -5,20 +5,22 @@ let favoritesData = [];
 // DOM Elements
 const savePaletteBtn = document.getElementById('savePaletteBtn');
 const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
-const favoritesModal = document.getElementById('favoritesModal');
+const favoritesDialog = document.getElementById('favoritesDialog');
+const nameDialog = document.getElementById('nameDialog');
+const nameDialogOk = document.getElementById('nameDialogOk');
+const paletteNameField = document.getElementById('paletteNameField');
 const favoritesList = document.getElementById('favoritesList');
-const closeModalBtn = favoritesModal.querySelector('.close');
+const closeFavoritesBtn = document.getElementById('closeFavoritesBtn');
+const toast = document.getElementById('toast');
 
 // Event Listeners
-savePaletteBtn.addEventListener('click', savePaletteToFavorites);
-viewFavoritesBtn.addEventListener('click', openFavoritesModal);
-closeModalBtn.addEventListener('click', closeFavoritesModal);
-
-window.addEventListener('click', (event) => {
-    if (event.target == favoritesModal) {
-        closeFavoritesModal();
-    }
+savePaletteBtn.addEventListener('click', () => {
+    paletteNameField.value = '';
+    nameDialog.open = true;
 });
+nameDialogOk.addEventListener('click', savePaletteToFavorites);
+viewFavoritesBtn.addEventListener('click', openFavoritesModal);
+closeFavoritesBtn.addEventListener('click', closeFavoritesModal);
 
 // Load favorites from server
 async function loadFavorites() {
@@ -47,8 +49,11 @@ async function saveFavorites() {
 }
 
 async function savePaletteToFavorites() {
-    const paletteName = prompt('Enter a name for this palette:');
-    if (!paletteName) return;
+    const paletteName = paletteNameField.value.trim();
+    if (!paletteName) {
+        nameDialog.open = false;
+        return;
+    }
 
     const paletteData = {
         name: paletteName,
@@ -62,16 +67,17 @@ async function savePaletteToFavorites() {
 
     favoritesData.push(paletteData);
     await saveFavorites();
-    alert('Palette saved to favorites!');
+    nameDialog.open = false;
+    showToast('Palette saved to favorites!');
 }
 
 function openFavoritesModal() {
-    favoritesModal.style.display = 'block';
     renderFavorites();
+    favoritesDialog.open = true;
 }
 
 function closeFavoritesModal() {
-    favoritesModal.style.display = 'none';
+    favoritesDialog.open = false;
 }
 
 function renderFavorites() {
@@ -137,6 +143,11 @@ function loadPalette(paletteData) {
     }));
     colorCountInput.value = colors.length;
     renderPalette();
+}
+
+function showToast(message) {
+    toast.labelText = message;
+    toast.open = true;
 }
 
 // Load favorites on app startup

@@ -53,6 +53,15 @@ body, html {
     transition: background-color 0.3s ease;
 }
 
+.color-swatch.new-swatch {
+    animation: slide-in 0.3s ease;
+}
+
+@keyframes slide-in {
+    from {transform: scale(0.8); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
 .add-button-container {
     flex: 0 0 10px;
     cursor: pointer;
@@ -199,6 +208,10 @@ body, html {
 }
 
 /* Material button styles handled by web components */
+md-filled-button,
+md-text-button {
+    margin: 4px;
+}
 
 /* Remove Icon Styles */
 .remove-icon {
