@@ -35,9 +35,23 @@ body, html {
     margin-right: 5px;
 }
 
-.controls input, .controls select, .controls button, .adjustments input {
-    padding: 5px 10px;
+.controls input, .controls select, .controls button, .adjustments input,
+.controls md-outlined-text-field,
+.controls md-outlined-select,
+.controls md-filled-button,
+.adjustments md-slider,
+.slider-group md-checkbox {
     font-size: 16px;
+    margin: 4px;
+}
+
+.controls md-outlined-text-field,
+.controls md-outlined-select {
+    width: 200px;
+}
+
+.adjustments md-slider {
+    width: 200px;
 }
 
 .palette {

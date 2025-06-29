@@ -7,18 +7,10 @@ const savePaletteBtn = document.getElementById('savePaletteBtn');
 const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
 const favoritesModal = document.getElementById('favoritesModal');
 const favoritesList = document.getElementById('favoritesList');
-const closeModalBtn = favoritesModal.querySelector('.close');
 
 // Event Listeners
 savePaletteBtn.addEventListener('click', savePaletteToFavorites);
 viewFavoritesBtn.addEventListener('click', openFavoritesModal);
-closeModalBtn.addEventListener('click', closeFavoritesModal);
-
-window.addEventListener('click', (event) => {
-    if (event.target == favoritesModal) {
-        closeFavoritesModal();
-    }
-});
 
 // Load favorites from server
 async function loadFavorites() {
@@ -66,12 +58,12 @@ async function savePaletteToFavorites() {
 }
 
 function openFavoritesModal() {
-    favoritesModal.style.display = 'block';
     renderFavorites();
+    favoritesModal.open = true;
 }
 
 function closeFavoritesModal() {
-    favoritesModal.style.display = 'none';
+    favoritesModal.open = false;
 }
 
 function renderFavorites() {
