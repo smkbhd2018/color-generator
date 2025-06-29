@@ -8,6 +8,7 @@ const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
 const favoritesDialog = document.getElementById('favoritesDialog');
 const nameDialog = document.getElementById('nameDialog');
 const nameDialogOk = document.getElementById('nameDialogOk');
+const cancelNameDialog = document.getElementById('cancelNameDialog');
 const paletteNameField = document.getElementById('paletteNameField');
 const favoritesList = document.getElementById('favoritesList');
 const closeFavoritesBtn = document.getElementById('closeFavoritesBtn');
@@ -16,11 +17,23 @@ const toast = document.getElementById('toast');
 // Event Listeners
 savePaletteBtn.addEventListener('click', () => {
     paletteNameField.value = '';
-    nameDialog.open = true;
+    nameDialog.classList.add('open');
+    paletteNameField.focus();
 });
 nameDialogOk.addEventListener('click', savePaletteToFavorites);
+cancelNameDialog.addEventListener('click', () => {
+    nameDialog.classList.remove('open');
+});
 viewFavoritesBtn.addEventListener('click', openFavoritesModal);
 closeFavoritesBtn.addEventListener('click', closeFavoritesModal);
+
+window.addEventListener('click', (event) => {
+    if (event.target === nameDialog) {
+        nameDialog.classList.remove('open');
+    } else if (event.target === favoritesDialog) {
+        favoritesDialog.classList.remove('open');
+    }
+});
 
 // Load favorites from server
 async function loadFavorites() {
@@ -51,7 +64,7 @@ async function saveFavorites() {
 async function savePaletteToFavorites() {
     const paletteName = paletteNameField.value.trim();
     if (!paletteName) {
-        nameDialog.open = false;
+        nameDialog.classList.remove('open');
         return;
     }
 
@@ -67,17 +80,17 @@ async function savePaletteToFavorites() {
 
     favoritesData.push(paletteData);
     await saveFavorites();
-    nameDialog.open = false;
+    nameDialog.classList.remove('open');
     showToast('Palette saved to favorites!');
 }
 
 function openFavoritesModal() {
     renderFavorites();
-    favoritesDialog.open = true;
+    favoritesDialog.classList.add('open');
 }
 
 function closeFavoritesModal() {
-    favoritesDialog.open = false;
+    favoritesDialog.classList.remove('open');
 }
 
 function renderFavorites() {
@@ -146,8 +159,11 @@ function loadPalette(paletteData) {
 }
 
 function showToast(message) {
-    toast.labelText = message;
-    toast.open = true;
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
 }
 
 // Load favorites on app startup

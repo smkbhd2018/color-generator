@@ -5,93 +5,86 @@
     <title>Color Palette Generator</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Import SortableJS for drag-and-drop -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <link rel="stylesheet" href="./node_modules/@fontsource/roboto/index.css">
-    <script type="importmap">
-      {
-        "imports": {
-          "@material/web/": "/node_modules/@material/web/"
-        }
-      }
-    </script>
-    <script type="module">
-      import "@material/web/all.js";
-      import {styles as typescaleStyles} from "@material/web/typography/md-typescale-styles.js";
-      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-    </script>
+    <script src="sortable.min.js"></script>
 </head>
 <body>
     <header class="header">
         <h1>Color Palette Generator</h1>
         <div class="controls">
-            <md-outlined-text-field id="colorCount" label="Number of Colors" type="number" min="2" max="20" value="5"></md-outlined-text-field>
+            <label for="colorCount">Number of Colors:</label>
+            <input id="colorCount" type="number" min="2" max="20" value="5">
 
-            <md-outlined-select id="algorithm" label="Algorithm">
-                <md-select-option value="analogous" selected><div slot="headline">Analogous</div></md-select-option>
-                <md-select-option value="random"><div slot="headline">Random</div></md-select-option>
-                <md-select-option value="complementary"><div slot="headline">Complementary</div></md-select-option>
-                <md-select-option value="triadic"><div slot="headline">Triadic</div></md-select-option>
-                <md-select-option value="tetradic"><div slot="headline">Tetradic</div></md-select-option>
-            </md-outlined-select>
-            <md-filled-button id="generateBtn">Generate Palette</md-filled-button>
-            <md-filled-button id="unlockAllBtn">Unlock All</md-filled-button>
-            <md-filled-button id="undoBtn">Undo</md-filled-button>
-            <md-filled-button id="redoBtn">Redo</md-filled-button>
-            <md-filled-button id="applySlidersBtn">Apply Adjustments</md-filled-button>
-            <md-filled-button id="resetSlidersBtn">Reset Sliders</md-filled-button>
-            <md-filled-button id="saveSwatchesBtn">Save Swatches Image</md-filled-button>
-            <md-filled-button id="savePaletteBtn">Save to Favorites</md-filled-button>
-            <md-filled-button id="viewFavoritesBtn">View Favorites</md-filled-button>
+            <label for="algorithm">Algorithm:</label>
+            <select id="algorithm">
+                <option value="analogous" selected>Analogous</option>
+                <option value="random">Random</option>
+                <option value="complementary">Complementary</option>
+                <option value="triadic">Triadic</option>
+                <option value="tetradic">Tetradic</option>
+            </select>
+            <button id="generateBtn">Generate Palette</button>
+            <button id="unlockAllBtn">Unlock All</button>
+            <button id="undoBtn">Undo</button>
+            <button id="redoBtn">Redo</button>
+            <button id="applySlidersBtn">Apply Adjustments</button>
+            <button id="resetSlidersBtn">Reset Sliders</button>
+            <button id="saveSwatchesBtn">Save Swatches Image</button>
+            <button id="savePaletteBtn">Save to Favorites</button>
+            <button id="viewFavoritesBtn">View Favorites</button>
         </div>
         <div class="adjustments">
             <div class="slider-group">
                 <label for="hueOffset">Hue Offset:</label>
-                <md-slider id="hueOffset" min="-180" max="180" value="0"></md-slider>
+                <input type="range" id="hueOffset" min="-180" max="180" value="0">
             </div>
             <div class="slider-group">
                 <label for="satOffset">Saturation Offset:</label>
-                <md-slider id="satOffset" min="-100" max="100" value="0"></md-slider>
+                <input type="range" id="satOffset" min="-100" max="100" value="0">
             </div>
             <div class="slider-group">
                 <label for="lightOffset">Lightness Offset:</label>
-                <md-slider id="lightOffset" min="-100" max="100" value="0"></md-slider>
+                <input type="range" id="lightOffset" min="-100" max="100" value="0">
             </div>
             <!-- New Checkbox for Toggling Hex Codes Visibility -->
             <div class="slider-group">
-                <md-checkbox id="toggleHexCodes" checked></md-checkbox>
-                <span>Show Hex Codes</span>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="toggleHexCodes" checked>
+                    Show Hex Codes
+                </label>
             </div>
             <!-- Existing Checkbox for Toggling Locked Colors Visibility -->
             <div class="slider-group">
-                <md-checkbox id="toggleLockedVisibility" checked></md-checkbox>
-                <span>Show Locked Colors</span>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="toggleLockedVisibility" checked>
+                    Show Locked Colors
+                </label>
             </div>
         </div>
     </header>
     <div class="palette" id="palette"></div>
 
-    <md-dialog id="nameDialog">
-        <div slot="headline">Name This Palette</div>
-        <div slot="content">
-            <md-outlined-text-field id="paletteNameField" label="Palette Name"></md-outlined-text-field>
+    <div class="dialog" id="nameDialog">
+        <div class="dialog-box">
+            <h3>Name This Palette</h3>
+            <input id="paletteNameField" type="text" placeholder="Palette Name">
+            <div class="dialog-actions">
+                <button id="cancelNameDialog">Cancel</button>
+                <button id="nameDialogOk">OK</button>
+            </div>
         </div>
-        <div slot="actions">
-            <md-text-button dialog-action="cancel">Cancel</md-text-button>
-            <md-text-button id="nameDialogOk">OK</md-text-button>
-        </div>
-    </md-dialog>
+    </div>
 
-    <md-dialog id="favoritesDialog">
-        <div slot="headline">Your Favorite Palettes</div>
-        <div slot="content">
+    <div class="dialog" id="favoritesDialog">
+        <div class="dialog-box">
+            <h3>Your Favorite Palettes</h3>
             <div id="favoritesList"></div>
+            <div class="dialog-actions">
+                <button id="closeFavoritesBtn">Close</button>
+            </div>
         </div>
-        <div slot="actions">
-            <md-text-button id="closeFavoritesBtn">Close</md-text-button>
-        </div>
-    </md-dialog>
+    </div>
 
-    <md-snackbar id="toast"></md-snackbar>
+    <div class="snackbar" id="toast"></div>
 
     <!-- Include the modular JavaScript files -->
     <script src="utils.js"></script>
