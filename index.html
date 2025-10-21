@@ -5,14 +5,14 @@
     <title>Color Palette Generator</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Import SortableJS for drag-and-drop -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="sortable.min.js"></script>
 </head>
 <body>
     <header class="header">
         <h1>Color Palette Generator</h1>
         <div class="controls">
             <label for="colorCount">Number of Colors:</label>
-            <input type="number" id="colorCount" min="2" max="20" value="5">
+            <input id="colorCount" type="number" min="2" max="20" value="5">
 
             <label for="algorithm">Algorithm:</label>
             <select id="algorithm">
@@ -22,7 +22,6 @@
                 <option value="triadic">Triadic</option>
                 <option value="tetradic">Tetradic</option>
             </select>
-
             <button id="generateBtn">Generate Palette</button>
             <button id="unlockAllBtn">Unlock All</button>
             <button id="undoBtn">Undo</button>
@@ -30,7 +29,6 @@
             <button id="applySlidersBtn">Apply Adjustments</button>
             <button id="resetSlidersBtn">Reset Sliders</button>
             <button id="saveSwatchesBtn">Save Swatches Image</button>
-            <!-- Existing Buttons -->
             <button id="savePaletteBtn">Save to Favorites</button>
             <button id="viewFavoritesBtn">View Favorites</button>
         </div>
@@ -49,14 +47,14 @@
             </div>
             <!-- New Checkbox for Toggling Hex Codes Visibility -->
             <div class="slider-group">
-                <label for="toggleHexCodes">
+                <label class="checkbox-label">
                     <input type="checkbox" id="toggleHexCodes" checked>
                     Show Hex Codes
                 </label>
             </div>
             <!-- Existing Checkbox for Toggling Locked Colors Visibility -->
             <div class="slider-group">
-                <label for="toggleLockedVisibility">
+                <label class="checkbox-label">
                     <input type="checkbox" id="toggleLockedVisibility" checked>
                     Show Locked Colors
                 </label>
@@ -65,14 +63,28 @@
     </header>
     <div class="palette" id="palette"></div>
 
-    <!-- Modal for Favorites -->
-    <div id="favoritesModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Your Favorite Palettes</h2>
-            <div id="favoritesList"></div>
+    <div class="dialog" id="nameDialog">
+        <div class="dialog-box">
+            <h3>Name This Palette</h3>
+            <input id="paletteNameField" type="text" placeholder="Palette Name">
+            <div class="dialog-actions">
+                <button id="cancelNameDialog">Cancel</button>
+                <button id="nameDialogOk">OK</button>
+            </div>
         </div>
     </div>
+
+    <div class="dialog" id="favoritesDialog">
+        <div class="dialog-box">
+            <h3>Your Favorite Palettes</h3>
+            <div id="favoritesList"></div>
+            <div class="dialog-actions">
+                <button id="closeFavoritesBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="snackbar" id="toast"></div>
 
     <!-- Include the modular JavaScript files -->
     <script src="utils.js"></script>

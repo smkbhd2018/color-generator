@@ -53,6 +53,10 @@ function renderPalette() {
 
         const swatch = document.createElement('div');
         swatch.classList.add('color-swatch');
+        if (color.isNew) {
+            swatch.classList.add('new-swatch');
+            delete color.isNew;
+        }
         swatch.setAttribute('data-index', index);
         swatch.setAttribute('data-id', color.id);
         swatch.style.backgroundColor = `hsl(${adjustHue(color.h)}, ${adjustSat(color.s)}%, ${adjustLight(color.l)}%)`;
@@ -192,7 +196,9 @@ function createColorCodeElement(label, value) {
 function insertColor(index) {
     const algorithm = algorithmSelect.value;
     const baseHue = colors.length > 0 ? colors[0].h : Math.floor(Math.random() * 360);
-    colors.splice(index, 0, generateColor(false, algorithm, colors.length + 1, baseHue, index));
+    const newColor = generateColor(false, algorithm, colors.length + 1, baseHue, index);
+    newColor.isNew = true;
+    colors.splice(index, 0, newColor);
     const newCount = colors.length;
     colorCountInput.value = newCount;
     renderPalette();

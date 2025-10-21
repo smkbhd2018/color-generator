@@ -5,18 +5,33 @@ let favoritesData = [];
 // DOM Elements
 const savePaletteBtn = document.getElementById('savePaletteBtn');
 const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
-const favoritesModal = document.getElementById('favoritesModal');
+const favoritesDialog = document.getElementById('favoritesDialog');
+const nameDialog = document.getElementById('nameDialog');
+const nameDialogOk = document.getElementById('nameDialogOk');
+const cancelNameDialog = document.getElementById('cancelNameDialog');
+const paletteNameField = document.getElementById('paletteNameField');
 const favoritesList = document.getElementById('favoritesList');
-const closeModalBtn = favoritesModal.querySelector('.close');
+const closeFavoritesBtn = document.getElementById('closeFavoritesBtn');
+const toast = document.getElementById('toast');
 
 // Event Listeners
-savePaletteBtn.addEventListener('click', savePaletteToFavorites);
+savePaletteBtn.addEventListener('click', () => {
+    paletteNameField.value = '';
+    nameDialog.classList.add('open');
+    paletteNameField.focus();
+});
+nameDialogOk.addEventListener('click', savePaletteToFavorites);
+cancelNameDialog.addEventListener('click', () => {
+    nameDialog.classList.remove('open');
+});
 viewFavoritesBtn.addEventListener('click', openFavoritesModal);
-closeModalBtn.addEventListener('click', closeFavoritesModal);
+closeFavoritesBtn.addEventListener('click', closeFavoritesModal);
 
 window.addEventListener('click', (event) => {
-    if (event.target == favoritesModal) {
-        closeFavoritesModal();
+    if (event.target === nameDialog) {
+        nameDialog.classList.remove('open');
+    } else if (event.target === favoritesDialog) {
+        favoritesDialog.classList.remove('open');
     }
 });
 
@@ -47,8 +62,11 @@ async function saveFavorites() {
 }
 
 async function savePaletteToFavorites() {
-    const paletteName = prompt('Enter a name for this palette:');
-    if (!paletteName) return;
+    const paletteName = paletteNameField.value.trim();
+    if (!paletteName) {
+        nameDialog.classList.remove('open');
+        return;
+    }
 
     const paletteData = {
         name: paletteName,
@@ -62,16 +80,17 @@ async function savePaletteToFavorites() {
 
     favoritesData.push(paletteData);
     await saveFavorites();
-    alert('Palette saved to favorites!');
+    nameDialog.classList.remove('open');
+    showToast('Palette saved to favorites!');
 }
 
 function openFavoritesModal() {
-    favoritesModal.style.display = 'block';
     renderFavorites();
+    favoritesDialog.classList.add('open');
 }
 
 function closeFavoritesModal() {
-    favoritesModal.style.display = 'none';
+    favoritesDialog.classList.remove('open');
 }
 
 function renderFavorites() {
@@ -137,6 +156,14 @@ function loadPalette(paletteData) {
     }));
     colorCountInput.value = colors.length;
     renderPalette();
+}
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
 }
 
 // Load favorites on app startup
